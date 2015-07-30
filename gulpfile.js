@@ -3,7 +3,7 @@ var gulp = require('gulp'),
     plugins = gulpLoadPlugins();
 
 gulp.task('js', function () {
-   return gulp.src('public/javascripts/*.js')
+   return gulp.src(['public/javascripts/*.js', 'public/javascripts/main.js'])
       .pipe(plugins.jshint())
       .pipe(plugins.jshint.reporter('default'))
       .pipe(plugins.uglify())

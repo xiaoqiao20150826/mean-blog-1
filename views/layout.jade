@@ -6,12 +6,9 @@ html
         meta(name="viewport" content="width=device-width, initial-scale=1")
         title #{title}
         link(rel='stylesheet', href='/stylesheets/main.css')
-        link(rel='stylesheet' href='/stylesheets/bootstrap/bootstrap.min.css')
-        link(rel="stylesheet" href="/stylesheets/bootstrap/bootstrap-responsive.min.css")
+        link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
+        link(rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-responsive.min.css")
         link(rel="stylesheet" href="/font-awesome/css/font-awesome.min.css")
-        -if(css)
-            -each data in css
-                link(rel="stylesheet" href="/stylesheets/#{data}.css")
 
     body(data-module="#{modules}")
         nav.navbar.navbar-inverse.navbar-fixed-top
@@ -36,10 +33,13 @@ html
         div#container.container
             div.main-body
                 block content
-                hr
-                footer
-                    p
-                        a(href="https://wenzhiquan.github.io/blog" target="_blank") Powered by wenzhiquan
-                        | &nbsp;2015
 
-script(data-main="/javascripts/main" src="/javascripts/bower_components/requirejs/require.js")
+        hr
+        footer
+            p
+                a(href="https://wenzhiquan.github.io/blog" target="_blank") Powered by wenzhiquan
+                | &nbsp;2015
+
+script(src="/bower_components/angular/angular.min.js")
+script(src="/javascripts/controllers.js")
+//script(data-main="/javascripts/main" src="/bower_components/requirejs/require.js")

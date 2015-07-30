@@ -3,10 +3,10 @@ var gulp = require('gulp'),
     plugins = gulpLoadPlugins();
 
 gulp.task('js', function () {
-   return gulp.src('*.js')
+   return gulp.src('public/javascripts/*.js')
       .pipe(plugins.jshint())
       .pipe(plugins.jshint.reporter('default'))
       .pipe(plugins.uglify())
-      .pipe(plugins.concat('app.js'))
-      .pipe(gulp.dest('build'));
+      .pipe(plugins.concat('build.js'))
+      .pipe(gulp.dest('public/javascripts/build'));
 });

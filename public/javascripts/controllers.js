@@ -1,13 +1,11 @@
-var phonecatApp = angular.module('phonecatApp', []);
+define(["app"], function(app){
+    function PhoneController($scope, $http) {
+      $http.post('/').success(function(data) {
+        $scope.phones = data;
+      });
 
-function PhoneController($scope, $http) {
-  $http.post('/').success(function(data) {
-    $scope.phones = data;
-  });
+      $scope.orderProp = 'age';
+    };
 
-  $scope.orderProp = 'age';
-};
-
-PhoneController.$inject = ['$scope', '$http'];
-
-phonecatApp.controller('PhoneController', PhoneController);
+    app.controller('PhoneController', PhoneController);
+});

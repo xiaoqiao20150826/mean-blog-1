@@ -1,4 +1,6 @@
-define(["app"], function(app){
+define(["phoneCat/controllers"], function(app){
+	'use strict';
+
     function PhoneController($scope, $http) {
       $http.post('/').success(function(data) {
         $scope.phones = data;
@@ -7,5 +9,5 @@ define(["app"], function(app){
       $scope.orderProp = 'age';
     };
 
-    app.controller('PhoneController', PhoneController);
+    app.controller('MyCtrl1', PhoneController);
 });

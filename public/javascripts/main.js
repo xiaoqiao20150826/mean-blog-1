@@ -4,9 +4,8 @@ require.config({
         "jquery": "/bower_components/jquery/dist/jquery.min",
         "bootstrap": "/bower_components/bootstrap/dist/js/bootstrap.min",
         "angular": "/bower_components/angular/angular.min",
+        "angular-route": "/bower_components/angular-route/angular-route.min",
         "domReady": "/bower_components/requirejs-domready/domReady",
-        "app" : "/javascripts/app",
-        "controllers": "/javascripts/controllers"
     },
 
     shim: {
@@ -14,7 +13,7 @@ require.config({
             deps: [
                 "jquery",
                 //"css!/font-awesome/css/font-awesome.min.css",
-                ],
+            ],
             exports: "bootstrap"
         },
 
@@ -22,15 +21,19 @@ require.config({
             exports: "angular"
         },
 
-        "app":{
-            exports: "app"
-        }
+        "angular-route": ["angular"],
 
         // "reg": ["css!/stylesheets/form.css"],
         // "login": ["css!/stylesheets/form.css"]
     },
 
-    deps: ["angular", "bootstrap"]
+    map: {
+        "*": {
+            "css": "/bower_components/require-css/css.min.js" // or whatever the path to require-css is
+        }
+    },
+
+    deps: ["angular", "bootstrap", "./start"]
 
 });
 
@@ -42,12 +45,11 @@ require.config({
 //     }
 //     console.log("all loaded");
 // });
-require(['angular', 'app', 'controllers'],function (angular){
-
-      $(function () {
-
-            angular.bootstrap(document,["phonecatApp"]);
-
-      })
-
-});
+require([
+        'app',
+        'start',
+        'routes',
+    ],
+    function() {
+    }
+);

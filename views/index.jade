@@ -1,14 +1,15 @@
 extends layout
 
 block content
-    div(ng-app="phonecatApp" ng-controller="PhoneController")
-        | Search:&nbsp;
-        input(ng-model="query")
-        | Sort by:&nbsp;
-        select(ng-model="orderProp")
-            option(value="name") Alphabetical
-            option(value="age") Newest
-        ul
-            li(ng-repeat="phone in phones | filter:query | orderBy:orderProp")
-                | {{ phone.name }}
-                p {{ phone.snippet }}
+
+    //- div(ng-app="phonecatApp" ng-controller="PhoneController")
+    //-     | Search:&nbsp;
+    //-     input(ng-model="query")
+    //-     | Sort by:&nbsp;
+    //-     select(ng-model="orderProp")
+    //-         option(value="name") Alphabetical
+    //-         option(value="age") Newest
+    //-     ul
+    //-         li(ng-repeat="phone in phones | filter:query | orderBy:orderProp")
+    //-             | {{ phone.name }}
+    //-             p {{ phone.snippet }}

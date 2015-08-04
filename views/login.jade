@@ -1,0 +1,34 @@
+extends layout
+
+block content
+
+    div(ng-app="users" ng-controller="LoginCtrl")
+        | Search:&nbsp;
+        input(ng-model="query")
+        | Sort by:&nbsp;
+        select(ng-model="orderProp")
+            option(value="name") Alphabetical
+            option(value="age") Newest
+        ul
+            li(ng-repeat="phone in phones | filter:query | orderBy:orderProp")
+                | {{ phone.name }}
+                p {{ phone.snippet }}
+
+    form.form-signin
+        h2.form-signin-heading 请登录
+        div.input-group.margin-bottom-sm
+            span.input-group-addon
+                i.fa.fa-user.fa-fw
+            input.form-control(type="text" name="name" placeholder="请输入用户名")
+
+        div.input-group.margin-bottom-sm
+            span#icon-password.input-group-addon
+                i.fa.fa-key.fa-fw
+            input.form-control(type="password" name="password" placeholder="请输入密码")
+
+        div.checkbox
+            label
+                input(type="checkbox" value="记住我")
+                |记住我
+
+        a.btn.btn-primary.btn-lg.btn-block(href="###") 登陆

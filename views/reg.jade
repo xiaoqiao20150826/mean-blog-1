@@ -1,0 +1,35 @@
+extends layout
+
+block content
+    div(ng-app="users" ng-controller="RegCtrl")
+        form.form-signin
+            h2.form-signin-heading 请输入注册信息
+            div.input-group.margin-bottom-sm
+                span.input-group-addon
+                    i.fa.fa-user.fa-fw
+                input.form-control(type="text" name="name" placeholder="请输入用户名" required)
+            div(style="display: none")
+                label#error-username.error
+
+            div.input-group.margin-bottom-sm
+                span#icon-password.input-group-addon
+                    i.fa.fa-key.fa-fw
+                input.form-control(type="password" name="password" placeholder="请输入密码" required)
+            div(style="display: none")
+                label#error-password.error
+
+            div.input-group.margin-bottom-sm
+                span#icon-password-repeat.input-group-addon
+                    i.fa.fa-key.fa-fw
+                input.form-control(type="password" name="password-repeat" placeholder="请再次输入密码" required)
+            div(style="display: none")
+                label#error-password-repeat.error
+
+            div.input-group.margin-bottom-sm
+                span#icon-email.input-group-addon
+                    i.fa.fa-envelope-o.fa-fw
+                input.form-control(type="email" name="email" placeholder="请输入邮箱" required)
+            div(style="display: none")
+                label#error-email.error
+
+            a.btn.btn-primary.btn-lg.btn-block(href="###" id="reg-btn") 注册

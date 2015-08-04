@@ -5,10 +5,14 @@ html
         meta(http-equiv="X-UA-Compatible" content="IE=edge")
         meta(name="viewport" content="width=device-width, initial-scale=1")
         title #{title}
+        script(src="/bower_components/angular/angular.min.js")
         link(rel='stylesheet', href='/stylesheets/main.css')
-        link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
-        link(rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-responsive.min.css")
+        link(rel='stylesheet' href='/stylesheets/bootstrap/bootstrap.min.css')
+        link(rel="stylesheet" href="/stylesheets/bootstrap/bootstrap-responsive.min.css")
         link(rel="stylesheet" href="/font-awesome/css/font-awesome.min.css")
+        -if(css)
+            -each data in css
+                link(rel="stylesheet" href="/stylesheets/#{data}.css")
 
     body
         nav.navbar.navbar-inverse.navbar-fixed-top
@@ -19,20 +23,20 @@ html
                         span.icon-bar
                         span.icon-bar
                         span.icon-bar
-                    a.navbar-brand(href="#/") My Blog
+                    a.navbar-brand(href="/") My Blog
 
                 div.collapse.navbar-collapse
                     ul#navbar.nav.navbar-nav
                         li.active
-                            a(href="#/") 主页
+                            a(href="/") 主页
                         li#nav-login
-                            a(href="#/users/login") 登陆
+                            a(href="/users/login") 登陆
                         li#nav-reg
-                            a(href="#/users/reg") 注册
+                            a(href="/users/reg") 注册
 
         div#container.container
             div.main-body
-                div(data-ng-view)
+                block content
 
         hr
         footer
@@ -40,4 +44,5 @@ html
                 a(href="https://wenzhiquan.github.io/blog" target="_blank") Powered by wenzhiquan
                 | &nbsp;2015
 
-script(data-main="/javascripts/main" src="/bower_components/requirejs/require.js")
+script(src = "/javascripts/build/build.js")
+//- script(src = "/javascripts/MyController.js")

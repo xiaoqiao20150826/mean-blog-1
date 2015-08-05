@@ -2,17 +2,11 @@ extends layout
 
 block content
 
-    div(ng-app="users" ng-controller="LoginCtrl")
-        | Search:&nbsp;
-        input(ng-model="query")
-        | Sort by:&nbsp;
-        select(ng-model="orderProp")
-            option(value="name") Alphabetical
-            option(value="age") Newest
-        ul
-            li(ng-repeat="phone in phones | filter:query | orderBy:orderProp")
-                | {{ phone.name }}
-                p {{ phone.snippet }}
+    div(ng-app="users" ng-controller="LoginController")
+        h4 add machine ever
+        button.button(ng-click="add(1)") Add
+        button.button(ng-click="subtract(1)") Subtract
+        h4 current count: {{ counter }}
 
     form.form-signin
         h2.form-signin-heading 请登录

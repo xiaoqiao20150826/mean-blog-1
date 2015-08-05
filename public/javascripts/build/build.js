@@ -1,1 +1,0 @@
-var app=angular.module("app",[]),MyController=function(o){o.clock={now:new Date};var n=function(){o.clock.now=new Date};setInterval(function(){o.$apply(n)},1e3),n()};MyController.$inject=["$scope"],app.controller("MyController",MyController);

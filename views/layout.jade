@@ -5,15 +5,13 @@ html
         meta(http-equiv="X-UA-Compatible" content="IE=edge")
         meta(name="viewport" content="width=device-width, initial-scale=1")
         title #{title}
-        script(src="/bower_components/angular/angular.min.js")
-        link(rel='stylesheet', href='/stylesheets/main.css')
-        link(rel='stylesheet' href='/stylesheets/bootstrap/bootstrap.min.css')
-        link(rel="stylesheet" href="/stylesheets/bootstrap/bootstrap-responsive.min.css")
-        link(rel="stylesheet" href="/font-awesome/css/font-awesome.min.css")
-        -if(css)
-            -each data in css
-                link(rel="stylesheet" href="/stylesheets/#{data}.css")
-
+        //- script(src="/bower_components/angular/angular.min.js")
+        script(src='/assets/libs.min.js')
+        link(rel='stylesheet', href='/assets/build.min.css')
+        link(rel='stylesheet', href='/assets/libs.min.css')
+        //- link(rel='stylesheet' href='/stylesheets/bootstrap/bootstrap.min.css')
+        //- link(rel="stylesheet" href="/stylesheets/bootstrap/bootstrap-responsive.min.css")
+        //- link(rel="stylesheet" href="/font-awesome/css/font-awesome.min.css")
     body
         nav.navbar.navbar-inverse.navbar-fixed-top
             div.container
@@ -44,5 +42,5 @@ html
                 a(href="https://wenzhiquan.github.io/blog" target="_blank") Powered by wenzhiquan
                 | &nbsp;2015
 
-script(src = "/javascripts/build/build.js")
+script(src = "/assets/build.min.js")
 //- script(src = "/javascripts/MyController.js")

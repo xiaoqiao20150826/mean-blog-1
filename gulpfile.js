@@ -125,10 +125,9 @@ gulp.task('libs-css-dev', function() {
 
 gulp.task('libs-js-dev', function() {
     return gulp.src([
-            'public/stylesheets/libs/*.js'
+            'public/javascripts/libs/angular.min.js',
+            'public/javascripts/libs/angular-messages.min.js'
         ])
-        .pipe(plugins.jshint())
-        .pipe(plugins.jshint.reporter('default'))
         .pipe(plugins.uglify())
         .pipe(plugins.concat('libs.min.js'))
         .pipe(gulp.dest('public/assets/'))

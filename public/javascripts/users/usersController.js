@@ -18,7 +18,7 @@ var RegController = function($scope) {
         } else {
             $scope.regForm.submitted = true;
         }
-    }
+    };
 };
 
 RegController.$inject = ['$scope'];

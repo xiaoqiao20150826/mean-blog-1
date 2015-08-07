@@ -1,13 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var Users = require('../models/users');
 
 /* GET users listing. */
 /* GET users listing. */
 router.get('/login', function(req, res) {
     res.render('login', {
         title: '登录',
-        modules: ['users/loginCtrl'],
-        css:['form']
     });
 });
 
@@ -28,9 +27,13 @@ router.post('/login', function(req, res) {
 router.get('/reg', function(req, res) {
     res.render('reg', {
         title: '注册',
-        modules: ['users/regCtrl'],
-        css:['form']
     });
+});
+
+router.post('/check', function(req, res) {
+    // var field = req.field;
+    // var value = req.value;
+    res.status(200).json(req.body);//Users.find({req.body.field: req.body.value}););
 });
 
 module.exports = router;

@@ -9,8 +9,8 @@ block content
                     i.fa.fa-user.fa-fw
                 input.form-control(type="text" name="username" ng-model="reg.username" placeholder="请输入用户名" \
                     ng-minlength="3" ng-maxlength="20" ensure-unique="username"  required ng-focus)
-            div.error(ng-messages="regForm.username.$error \
-                    && (!regForm.username.$focused || regForm.submitted)" ng-messages-multiple)
+            div.error.ng-cloak(ng-messages="regForm.username.$error" ng-messages-multiple \
+                    ng-if="regForm.username.$dirty && (!regForm.username.$focused || regForm.submitted)")
                 div(ng-message="required") 用户名不能为空
                 div(ng-message="minlength") 用户名最短为3位字符
                 div(ng-message="maxlength") 用户名最长为20位字符
@@ -21,34 +21,34 @@ block content
                     i.fa.fa-key.fa-fw
                 input.form-control(type="password" name="password" ng-model="reg.password" placeholder="请输入密码" \
                     ng-minlength="3" ng-maxlength="20"  required ng-focus)
-            div.error(ng-show="regForm.password.$dirty && regForm.password.$invalid \
-                    && (!regForm.password.$focused || regForm.submitted)")
-                small.error(ng-show="regForm.password.$error.required") 密码不能为空
-                small.error(ng-show="regForm.password.$error.minlength") 密码最短为3位字符
-                small.error(ng-show="regForm.password.$error.maxlength") 密码最长为20位字符
+            div.error.ng-cloak(ng-messages="regForm.password.$error" ng-messages-multiple \
+                    ng-show="regForm.password.$dirty && (!regForm.password.$focused || regForm.submitted)")
+                div(ng-message="required") 密码不能为空
+                div(ng-message="minlength") 密码最短为3位字符
+                div(ng-message="maxlength") 密码最长为20位字符
 
             div.input-group.margin-bottom-sm
                 span.input-group-addon
                     i.fa.fa-key.fa-fw
                 input.form-control(type="password" name="passwordRepeat" ng-model="reg.passwordRepeat" placeholder="请再次输入密码" \
                     ng-minlength="3" ng-maxlength="20" required ng-focus)
-            div.error(ng-show="regForm.passwordRepeat.$dirty && regForm.passwordRepeat.$invalid \
-                    && (!regForm.passwordRepeat.$focused || regForm.submitted)")
-                small.error(ng-show="regForm.passwordRepeat.$error.required") 密码不能为空
-                small.error(ng-show="regForm.passwordRepeat.$error.minlength") 密码最短为3位字符
-                small.error(ng-show="regForm.passwordRepeat.$error.maxlength") 密码最长为20位字符
+            div.error.ng-cloak(ng-messages="regForm.passwordRepeat.$error" ng-messages-multiple \
+                    ng-show="regForm.passwordRepeat.$dirty && (!regForm.passwordRepeat.$focused || regForm.submitted)")
+                div(ng-message="required") 密码不能为空
+                div(ng-message="minlength") 密码最短为3位字符
+                div(ng-message="maxlength") 密码最长为20位字符
 
             div.input-group.margin-bottom-sm
                 span.input-group-addon
                     i.fa.fa-envelope-o.fa-fw
                 input.form-control(type="email" name="email" ng-model="reg.email" placeholder="请输入邮箱" \
                     ng-minlength="3" ng-maxlength="30" ensure-unique="email" required ng-focus)
-            div.error(ng-show="regForm.email.$dirty && regForm.email.$invalid \
-                    && (!regForm.email.$focused  || regForm.submitted)")
-                small.error(ng-show="regForm.email.$error.required") 邮箱不能为空
-                small.error(ng-show="regForm.email.$error.unique") 该邮箱已被使用
-                small.error(ng-show="regForm.email.$error.minlength") 邮箱最短为3位字符
-                small.error(ng-show="regForm.email.$error.maxlength") 邮箱最长为30位字符
-                small.error(ng-show="regForm.email.$error.email") 邮箱格式不正确
+            div.error.ng-cloak(ng-messages="regForm.email.$error" ng-messages-multiple \
+                    ng-show="regForm.email.$dirty && (!regForm.email.$focused || regForm.submitted)")
+                div(ng-message="required") 邮箱不能为空
+                div(ng-message="unique") 该邮箱已被使用
+                div(ng-message="minlength") 邮箱最短为3位字符
+                div(ng-message="maxlength") 邮箱最长为30位字符
+                div(ng-message="email") 邮箱格式不正确
 
             button.btn.btn-primary.btn-lg.btn-block(type="submit" ng-disabled="regForm.$invalid") 注册

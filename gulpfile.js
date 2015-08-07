@@ -100,17 +100,17 @@ gulp.task('dev', function() {
 
 gulp.task('js-dev', function() {
     return gulp.src(['public/javascripts/**/*.js', '!public/javascripts/libs/*'])
-        .pipe(plugins.concat('build.min.js'))
         .pipe(plugins.jshint())
         .pipe(plugins.jshint.reporter('default'))
         .pipe(plugins.uglify())
+        .pipe(plugins.concat('build.min.js'))
         .pipe(gulp.dest('public/assets/'))
 });
 
 gulp.task('css-dev', function() {
     return gulp.src(['public/stylesheets/**/*.css', '!public/stylesheets/libs/*'])
-        .pipe(plugins.concat('build.min.css'))
         .pipe(plugins.minifyCss())
+        .pipe(plugins.concat('build.min.css'))
         .pipe(gulp.dest('public/assets/'))
 });
 

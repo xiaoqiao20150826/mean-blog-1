@@ -66,3 +66,7 @@ label {
 .error {
     color: red;
 }
+
+.ng-cloak {
+    display: none;
+}

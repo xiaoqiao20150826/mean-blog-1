@@ -8,7 +8,8 @@ block content
                 span.input-group-addon
                     i.fa.fa-user.fa-fw
                 input.form-control(type="text" name="username" ng-model="reg.username" placeholder="请输入用户名" \
-                    ng-minlength="3" ng-maxlength="20" ensure-unique="username"  required ng-focus)
+                    ng-minlength="3" ng-maxlength="20" ensure-unique="username" required ng-focus)
+            //ng-cloak用于防止出现闪烁的情况
             div.error.ng-cloak(ng-messages="regForm.username.$error" ng-messages-multiple \
                     ng-if="regForm.username.$dirty && (!regForm.username.$focused || regForm.submitted)")
                 div(ng-message="required") 用户名不能为空
@@ -31,18 +32,19 @@ block content
                 span.input-group-addon
                     i.fa.fa-key.fa-fw
                 input.form-control(type="password" name="passwordRepeat" ng-model="reg.passwordRepeat" placeholder="请再次输入密码" \
-                    ng-minlength="3" ng-maxlength="20" required ng-focus)
+                    ng-minlength="3" ng-maxlength="20" required ng-focus confirmed)
             div.error.ng-cloak(ng-messages="regForm.passwordRepeat.$error" ng-messages-multiple \
                     ng-show="regForm.passwordRepeat.$dirty && (!regForm.passwordRepeat.$focused || regForm.submitted)")
                 div(ng-message="required") 密码不能为空
                 div(ng-message="minlength") 密码最短为3位字符
                 div(ng-message="maxlength") 密码最长为20位字符
+                div(ng-message="confirmed") 两次输入的密码不相同
 
             div.input-group.margin-bottom-sm
                 span.input-group-addon
                     i.fa.fa-envelope-o.fa-fw
                 input.form-control(type="email" name="email" ng-model="reg.email" placeholder="请输入邮箱" \
-                    ng-minlength="3" ng-maxlength="30" ensure-unique="email" required ng-focus)
+                    ng-minlength="3" ng-maxlength="30" ensure-unique="email"  required ng-focus)
             div.error.ng-cloak(ng-messages="regForm.email.$error" ng-messages-multiple \
                     ng-show="regForm.email.$dirty && (!regForm.email.$focused || regForm.submitted)")
                 div(ng-message="required") 邮箱不能为空

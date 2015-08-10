@@ -3,26 +3,35 @@ extends layout
 block content
 
     div(ng-app="users" ng-controller="LoginController")
-        h4 add machine ever
-        button.button(ng-click="add(1)") Add
-        button.button(ng-click="subtract(1)") Subtract
-        h4 current count: {{ counter }}
+        form.form-signin(name="loginForm" ng-submit="submitForm()")
+            h2.form-signin-heading 请登录
+            div.input-group.margin-bottom-sm
+                span.input-group-addon
+                    i.fa.fa-user.fa-fw
+                 input.form-control(type="text" name="username" ng-model="login.username" placeholder="请输入用户名" \
+                    ng-minlength="3" ng-maxlength="20" required ng-focus)
+            //ng-cloak用于防止出现闪烁的情况
+            div.error.ng-cloak(ng-messages="loginForm.username.$error" ng-messages-multiple \
+                    ng-if="loginForm.username.$dirty && (!loginForm.username.$focused || loginForm.submitted)")
+                div(ng-message="required") 用户名不能为空
+                div(ng-message="minlength") 用户名最短为3位字符
+                div(ng-message="maxlength") 用户名最长为20位字符
 
-    form.form-signin
-        h2.form-signin-heading 请登录
-        div.input-group.margin-bottom-sm
-            span.input-group-addon
-                i.fa.fa-user.fa-fw
-            input.form-control(type="text" name="name" placeholder="请输入用户名")
+            div.input-group.margin-bottom-sm
+                span.input-group-addon
+                    i.fa.fa-key.fa-fw
+                input.form-control(type="password" name="password" ng-model="login.password" placeholder="请输入密码" \
+                    ng-minlength="3" ng-maxlength="20"  required ng-focus)
+            div.error.ng-cloak(ng-messages="loginForm.password.$error" ng-messages-multiple \
+                    ng-show="loginForm.password.$dirty && (!loginForm.password.$focused || loginForm.submitted)")
+                div(ng-message="required") 密码不能为空
+                div(ng-message="minlength") 密码最短为3位字符
+                div(ng-message="maxlength") 密码最长为20位字符
+                div(ng-message="wrong") 用户名或密码错误
 
-        div.input-group.margin-bottom-sm
-            span#icon-password.input-group-addon
-                i.fa.fa-key.fa-fw
-            input.form-control(type="password" name="password" placeholder="请输入密码")
+            div.checkbox
+                label
+                    input(type="checkbox" value="记住我")
+                    |记住我
 
-        div.checkbox
-            label
-                input(type="checkbox" value="记住我")
-                |记住我
-
-        a.btn.btn-primary.btn-lg.btn-block(href="###") 登陆
+            button.btn.btn-primary.btn-lg.btn-block(type="submit" ng-disabled="loginForm.$invalid") 注册

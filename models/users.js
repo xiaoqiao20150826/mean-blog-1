@@ -1,4 +1,4 @@
-var mongoose = require('mongoose'),
+var mongoose = require('./db'),
     Schema = mongoose.Schema,
     ObjectId = Schema.Types.ObjectId;
 
@@ -14,4 +14,4 @@ var UserSchema = new Schema({
       createdTime: Date
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('Users', UserSchema);

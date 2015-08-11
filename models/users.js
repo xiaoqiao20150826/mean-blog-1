@@ -2,7 +2,7 @@ var mongoose = require('./db'),
     Schema = mongoose.Schema,
     ObjectId = Schema.Types.ObjectId;
 
-var UserSchema = new Schema({
+var UsersSchema = new Schema({
       username: String,
       password: String,
       email: String,
@@ -14,4 +14,4 @@ var UserSchema = new Schema({
       createdTime: Date
 });
 
-module.exports = mongoose.model('Users', UserSchema);
+module.exports = mongoose.model('Users', UsersSchema);

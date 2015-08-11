@@ -25,14 +25,22 @@ html
 
                 div.collapse.navbar-collapse
                     ul.nav.navbar-nav(nav-bar)
-                        li.active
+                        li
                             a(href="/") 主页
-                        li
-                            a(href="/users/login") 登陆
-                        li
-                            a(href="/users/reg") 注册
+                        -if (users)
+                            li
+                                a(href="/posts/upload") 上传
+                            li
+                                a(href="/posts/publish") 发表
+                            li
+                                a(href="/users/logout") 退出
+                        -else
+                            li
+                                a(href="/users/login") 登陆
+                            li
+                                a(href="/users/reg") 注册
 
-        div#container.container
+        div.container
             div.main-body
                 block content
 

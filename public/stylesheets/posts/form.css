@@ -1,0 +1,62 @@
+.form-posts {
+    max-width: 600px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-posts input[type="text"] {
+    border-radius: 10px;
+    height: 30px;
+}
+
+.form-posts textarea[name="content"] {
+    border-radius: 10px;
+    margin-top: 15px;
+    resize: none;
+}
+
+.form-posts .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-posts .checkbox {
+    font-weight: normal;
+}
+
+.form-posts .form-posts-heading,
+.form-posts .checkbox {
+    margin-bottom: 15px;
+}
+
+#publish {
+    margin-top: 15px;
+}
+
+.post-div {
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding:  1px 30px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.drop-box {
+    background: #F8F8F8;
+    border: 5px dashed #DDD;
+    width: 200px;
+    height: 65px;
+    text-align: center;
+    padding-top: 25px;
+    margin: 10px;
+}
+.dragover {
+    border: 5px dashed blue;
+}

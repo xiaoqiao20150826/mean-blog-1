@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+    div(ng-app="posts" ng-controller="UploadController")
+        div.drop-box(ngf-drop ngf-select ng-model="files" ngf-drag-over-class="dragover"
+            ngf-multiple="true" ngf-allow-dir="true" ngf-accept="'image/*,application/pdf'") Drop pdfs or images here or click to upload
+        div(ngf-no-file-drop) File Drag/Drop is not supported for this browser
+        ul
+            li( ng-repeat="f in files" style="font:smaller") {{f.name}}
+        | Upload Log:
+        pre {{log}}
+        img(ngf-src="file" ngf-accept="'image/*'")

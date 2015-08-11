@@ -8,11 +8,14 @@ var MD5 = function(text) {
 };
 
 /* GET users listing. */
-/* GET users listing. */
 router.get('/login', function(req, res) {
-    res.render('login', {
-        title: '登录',
-    });
+    if (req.session.users) {
+        res.redirect('/');
+    } else {
+        res.render('users/login', {
+            title: '登录',
+        });
+    }
 });
 
 router.post('/login', function(req, res) {
@@ -26,9 +29,9 @@ router.post('/login', function(req, res) {
 
     var users = {
         username: username,
-        password: MD5(password + '' + username),
+        password: MD5(MD5(password + '') + username),
     };
-console.log(users);
+
     Users.findOne(users, function(err, docs) {
         if (err) {
             console.log(err);
@@ -36,6 +39,7 @@ console.log(users);
         }
         if (docs) {
             data.result = true;
+            req.session.users = users;
             res.status(200).json(data);
         } else {
             res.status(200).json(data);
@@ -43,10 +47,19 @@ console.log(users);
     });
 });
 
+router.get('/logout', function(req, res) {
+    req.session.users = null;
+    res.redirect('/');
+});
+
 router.get('/reg', function(req, res) {
-    res.render('reg', {
-        title: '注册',
-    });
+    if (req.session.users) {
+        res.redirect('/');
+    } else {
+        res.render('users/reg', {
+            title: '注册',
+        });
+    }
 });
 
 router.post('/reg', function(req, res) {
@@ -93,7 +106,7 @@ router.post('/reg', function(req, res) {
                     //若不存在则存入数据库中
                     var users = new Users({
                         username: username,
-                        password: MD5(password + '' + username),
+                        password: MD5(MD5(password + '') + username),
                         email: email
                     });
 
@@ -103,6 +116,7 @@ router.post('/reg', function(req, res) {
                             return handleError(err);
                         } else {
                             data.result = true;
+                            req.session.users = users;
                             res.status(200).json(data);
                             return;
                         }

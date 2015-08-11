@@ -126,7 +126,9 @@ gulp.task('libs-css-dev', function() {
 gulp.task('libs-js-dev', function() {
     return gulp.src([
             'public/javascripts/libs/angular.min.js',
-            'public/javascripts/libs/angular-messages.min.js'
+            'public/javascripts/libs/angular-messages.min.js',
+            'public/javascripts/libs/ng-file-upload.min.js',
+            'public/javascripts/libs/ng-file-upload-shim.min.js'
         ])
         .pipe(plugins.uglify())
         .pipe(plugins.concat('libs.min.js'))

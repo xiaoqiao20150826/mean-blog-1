@@ -3,6 +3,7 @@ var router = express.Router();
 var Posts = require('../models/posts');
 var multiparty = require('connect-multiparty'),
     multipartyMiddleware = multiparty();
+var fs = require('fs');
 
 /* GET users listing. */
 router.get('/publish', function(req, res) {
@@ -76,10 +77,27 @@ router.get('/upload', function(req, res) {
 });
 
 router.post('/upload', multipartyMiddleware, function(req, res) {
-    var file = req.files.file;
-
-    console.log(file.name); //original name (ie: sunset.png)
-    console.log(file.path); //tmp path (ie: /tmp/12345-xyaz.png)
+    var tmpPath = req.files.file.path;
+    var targetPath = 'public/images/' + req.files.file.name;
+    var data = {
+        result: false
+    };
+    console.log(targetPath);
+    //将上传的临时文件移动到指定的目录下
+    fs.rename(tmpPath, targetPath, function(err) {
+        if (err) {
+            throw err;
+        }
+        //删除临时文件
+        fs.unlink(tmpPath, function() {
+            if (err) {
+                throw err;
+            }
+            //将当前的用户写到会话中
+            data.result = true;
+            res.status(200).json(data);
+        })
+    })
 });
 
 module.exports = router;

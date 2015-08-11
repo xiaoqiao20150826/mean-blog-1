@@ -27,9 +27,6 @@ var PublishController = function($scope, $http) {
 };
 
 var UploadController = function($scope, Upload) {
-    $scope.$watch('file', function(file) {
-        $scope.upload($scope.file);
-    });
     $scope.$watch('files', function() {
         $scope.upload($scope.files);
     });
@@ -46,13 +43,13 @@ var UploadController = function($scope, Upload) {
                 Upload.upload({
                     url: '/posts/upload',
                     fields: {
-                        'username': $scope.username
+                        'username': 'wen'
                     },
                     file: file
                 }).progress(function(evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     $scope.log = 'progress: ' + progressPercentage + '% ' +
-                        evt.config.file.name + '\n' + $scope.log;
+                        evt.config.file.name + '\n';
                 }).success(function(data, status, headers, config) {
                 });
             }

@@ -35,6 +35,7 @@ var UploadController = function($scope, Upload) {
     //Upload.setDefaults( {ngf-keep:false ngf-accept:'image/*', ...} );
 
     $scope.log = '';
+    $scope.uploadeds = [];
 
     $scope.upload = function(files) {
         if (files && files.length) {
@@ -42,20 +43,18 @@ var UploadController = function($scope, Upload) {
                 var file = files[i];
                 Upload.upload({
                     url: '/posts/upload',
-                    fields: {
-                        'username': 'wen'
-                    },
                     file: file
                 }).progress(function(evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     $scope.log = 'progress: ' + progressPercentage + '% ' +
                         evt.config.file.name + '\n';
                 }).success(function(data, status, headers, config) {
+                    $scope.uploadeds.push(data);
                 });
             }
         }
     };
-}
+};
 
 PublishController.$inject = ['$scope', '$http'];
 UploadController.$inject = ['$scope', 'Upload'];

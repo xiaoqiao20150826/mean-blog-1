@@ -1,12 +1,14 @@
-extends ../layout
+extends publish
 
-block content
+block upload
     div(ng-app="posts" ng-controller="UploadController")
+        div.uploaded(ng-repeat="uploaded in uploadeds")
+            img.images(ngf-src="uploaded.path" ngf-accept="'image/*'" alt="{{ uploaded.name }}")
+            span {{ uploaded.name }}
         div.drop-box(ngf-drop ngf-select ng-model="files" ngf-drag-over-class="dragover"
             ngf-multiple="true" ngf-allow-dir="true" ngf-accept="'image/*,application/pdf'") 点击或将图片拖到此处进行上传
         div(ngf-no-file-drop) File Drag/Drop is not supported for this browser
-        ul
-            li(ng-repeat="f in files" style="font:smaller") {{f.name}}
-                img.images(ngf-src="f" ngf-accept="'image/*'")
-        | Upload Log:
-        pre {{log}}
+        //- ul
+        //-     li(ng-repeat="f in files" style="font:smaller") {{f.name}}
+        //- | Upload Log:
+        //- pre {{log}}

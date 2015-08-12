@@ -49,6 +49,8 @@
 }
 
 .drop-box {
+    display: block;
+    float: left;
     background: #F8F8F8;
     border: 5px dashed #DDD;
     width: 100px;
@@ -64,4 +66,16 @@
 .images {
     width: 100px;
     height: 100px;
+}
+
+.uploaded {
+    width: 100px;
+    padding: 10px 10px;
+    display: block;
+    float: left;
+    margin: 0 10px;
+}
+
+.uploaded span{
+    position: relative;
 }

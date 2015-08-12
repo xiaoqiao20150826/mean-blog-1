@@ -4,7 +4,10 @@ var Posts = require('../models/posts');
 var multiparty = require('connect-multiparty'),
     multipartyMiddleware = multiparty();
 var fs = require('fs');
-
+var gm = require('gm'),
+    imageMagick = gm.subClass({
+        imageMagick: true
+    });
 /* GET users listing. */
 router.get('/publish', function(req, res) {
     if (!req.session.users) {
@@ -79,25 +82,47 @@ router.get('/upload', function(req, res) {
 router.post('/upload', multipartyMiddleware, function(req, res) {
     var tmpPath = req.files.file.path;
     var targetPath = 'public/images/' + req.files.file.name;
+    var size = req.files.file.size;
     var data = {
-        result: false
+        path: false,
+        name: false
     };
-    console.log(targetPath);
-    //将上传的临时文件移动到指定的目录下
-    fs.rename(tmpPath, targetPath, function(err) {
-        if (err) {
-            throw err;
-        }
-        //删除临时文件
+    if (size > 3 * 1024 * 1024) {
+        fs.unlink(tmpPath, function() { //fs.unlink 删除用户上传的文件
+            res.end('1');
+        });
+    } else if (req.files.file.type.split('/')[0] != 'image') {
         fs.unlink(tmpPath, function() {
-            if (err) {
-                throw err;
+            res.end('2');
+        });
+    } else {
+        fs.exists(targetPath, function(exists) {
+            if (exists) {
+                fs.unlink(tmpPath, function() {
+                    data.path = '/images/' + req.files.file.name;
+                    data.name = req.files.file.name;
+                    res.status(200).json(data);
+                    res.end('2');
+                });
+            } else {
+                imageMagick(tmpPath)
+                    .resize(150, 150, '!') //加('!')强行把图片缩放成对应尺寸150*150！
+                    .autoOrient()
+                    .write(targetPath, function(err) {
+                        if (err) {
+                            console.log(err);
+                            res.end();
+                        }
+                        fs.unlink(tmpPath, function() {
+                            data.path = '/images/' + req.files.file.name;
+                            data.name = req.files.file.name;
+                            res.status(200).json(data);
+                            res.end('3');
+                        });
+                    });
             }
-            //将当前的用户写到会话中
-            data.result = true;
-            res.status(200).json(data);
-        })
-    })
+        });
+    }
 });
 
 module.exports = router;

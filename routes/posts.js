@@ -8,6 +8,7 @@ var gm = require('gm'),
     imageMagick = gm.subClass({
         imageMagick: true
     });
+var markdown = require('markdown').markdown;
 /* GET users listing. */
 router.get('/publish', function(req, res) {
     if (!req.session.users) {
@@ -18,6 +19,45 @@ router.get('/publish', function(req, res) {
             users: req.session.users
         });
     }
+});
+
+router.get('/user/:username', function(req, res) {
+    Posts.find({
+        username: req.params.username
+    }, function(err, posts) {
+        if (err) {
+            posts = [];
+        }
+        posts.forEach(function(post) {
+            post.content = markdown.toHTML(post.content);
+        });
+        res.render('posts/posts', {
+            title: '主页',
+            users: req.session.users,
+            posts: posts,
+            author: posts[0].username
+        });
+    });
+});
+
+router.get('/user/:username/:day/:title', function(req, res) {
+    Posts.find({
+        username: req.params.username,
+        'createdTime.day': req.params.day,
+        title: req.params.title
+    }, function(err, posts) {
+        if (err) {
+            posts = [];
+        }
+        posts.forEach(function(post) {
+            post.content = markdown.toHTML(post.content);
+        });
+        res.render('posts/posts', {
+            title: '主页',
+            users: req.session.users,
+            posts: posts
+        });
+    });
 });
 
 router.post('/publish', function(req, res) {

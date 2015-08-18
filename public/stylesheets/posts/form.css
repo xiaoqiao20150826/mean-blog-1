@@ -79,3 +79,7 @@
 .uploaded span{
     position: relative;
 }
+
+.edit {
+    margin-right: 10px;
+}

@@ -5,12 +5,12 @@ var markdown = require('markdown').markdown;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    Posts.find({}, function(err, posts) {
+    Posts.find({status: 1}, function(err, posts) {
         if (err) {
             posts = [];
         }
         posts.forEach(function(post) {
-            post.content = markdown.toHTML(post.content);
+            post.content = markdown.toHTML(post.content).slice(0, 200);
         });
         res.render('index', {
             title: '主页',

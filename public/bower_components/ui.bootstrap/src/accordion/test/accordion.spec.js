@@ -102,6 +102,39 @@ describe('accordion', function () {
     });
   });
 
+  describe('accordion', function () {
+    var scope, $compile, $templateCache, element;
+
+    beforeEach(inject(function($rootScope, _$compile_, _$templateCache_) {
+      scope = $rootScope;
+      $compile = _$compile_;
+      $templateCache = _$templateCache_;
+    }));
+
+    it('should expose the controller on the view', function () {
+      $templateCache.put('template/accordion/accordion.html', '<div>{{accordion.text}}</div>');
+
+      element = $compile('<accordion></accordion>')(scope);
+      scope.$digest();
+
+      var ctrl = element.controller('accordion');
+      expect(ctrl).toBeDefined();
+
+      ctrl.text = 'foo';
+      scope.$digest();
+
+      expect(element.html()).toBe('<div class="ng-binding">foo</div>');
+    });
+
+    it('should allow custom templates', function () {
+      $templateCache.put('foo/bar.html', '<div>baz</div>');
+
+      element = $compile('<accordion template-url="foo/bar.html"></accordion>')(scope);
+      scope.$digest();
+      expect(element.html()).toBe('<div>baz</div>');
+    });
+  });
+
   describe('accordion-group', function () {
 
     var scope, $compile;
@@ -113,7 +146,6 @@ describe('accordion', function () {
       return groups.eq(index).find('.panel-collapse').eq(0);
     };
 
-
     beforeEach(inject(function(_$rootScope_, _$compile_) {
       scope = _$rootScope_;
       $compile = _$compile_;
@@ -122,6 +154,19 @@ describe('accordion', function () {
     afterEach(function () {
       element = groups = scope = $compile = undefined;
     });
+
+    it('should allow custom templates', inject(function ($templateCache) {
+      $templateCache.put('foo/bar.html', '<div>baz</div>');
+
+      var tpl =
+        '<accordion>' +
+          '<accordion-group heading="title 1" template-url="foo/bar.html"></accordion-group>' +
+        '</accordion>';
+
+      element = $compile(tpl)(scope);
+      scope.$digest();
+      expect(element.find('[template-url]').html()).toBe('baz');
+    }));
 
     describe('with static panels', function () {
       beforeEach(function () {
@@ -165,6 +210,17 @@ describe('accordion', function () {
         findGroupLink(0).click();
         scope.$digest();
         expect(findGroupBody(0).scope().isOpen).toBe(false);
+      });
+
+      it('should add "open" when opened', function() {
+        var group = groups.eq(0);
+        findGroupLink(0).click();
+        scope.$digest();
+        expect(group).toHaveClass('panel-open');
+
+        findGroupLink(0).click();
+        scope.$digest();
+        expect(group).not.toHaveClass('panel-open');
       });
     });
 

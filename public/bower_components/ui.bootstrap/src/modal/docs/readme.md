@@ -17,6 +17,7 @@ The `$modal` service has only one method: `open(options)` where available option
 * `windowClass` - additional CSS class(es) to be added to a modal window template
 * `windowTemplateUrl` - a path to a template overriding modal's window template
 * `size` - optional suffix of modal window class. The value used is appended to the `modal-` class, i.e. a value of `sm` gives `modal-sm`
+* `openedClass` - class added to the `body` element when the modal is opened. Defaults to `modal-open`
 
 Global defaults may be set for `$modal` via `$modalProvider.options`.
 
@@ -34,6 +35,8 @@ In addition the scope associated with modal's content is augmented with 2 method
 * `$dismiss(reason)`
 
 Those methods make it easy to close a modal window without a need to create a dedicated controller.
+
+If the $scope is destroyed via unexpected mechanism, such as it being passed in the modal options and a $route/$state transition occurs, the modal will be dismissed with the value `$uibUnscheduledDestruction`.
 
 Finally, a `modal.closing` event is broadcast to the modal scope before the modal closes.  If the listener calls 
 preventDefault on the event, then the modal will remain open.  The $close and $dismiss methods return true if the 

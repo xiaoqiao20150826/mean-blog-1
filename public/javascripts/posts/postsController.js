@@ -1,4 +1,4 @@
-var posts = angular.module('posts', ['ngMessages', 'ngFileUpload']);
+var posts = angular.module('posts', ['ngMessages', 'ngFileUpload', 'ui.bootstrap']);
 
 var PublishController = function($scope, $http) {
     $scope.submitted = false;
@@ -21,7 +21,33 @@ var PublishController = function($scope, $http) {
                 console.log(error);
             });
         } else {
-            $scope.publishForm.submitted = true;
+            $scope.submitted = true;
+        }
+    };
+};
+
+var EditController = function($scope, $http) {
+    $scope.submitted = false;
+    $scope.submitForm = function() {
+        if ($scope.editForm.$valid) { // 正常提交
+            $http({
+                method: 'POST',
+                url: '/posts/edit',
+                data: {
+                    title: $scope.edit.title,
+                    content: $scope.edit.content
+                }
+            }).success(function(data) {
+                if (data.result === true) {
+                    window.location = '/';
+                } else {
+                    $scope.editForm.content.$setValidity('confirm', false);
+                }
+            }).error(function(error) {
+                console.log(error);
+            });
+        } else {
+            $scope.submitted = true;
         }
     };
 };
@@ -56,8 +82,36 @@ var UploadController = function($scope, Upload) {
     };
 };
 
+
+var PostController = function($scope, $http) {
+    $scope.totalItems = 64;
+    $scope.currentPage = 4;
+    console.log($scope.totalItems );
+
+    $scope.setPage = function(pageNo) {
+        $scope.currentPage = pageNo;
+    };
+
+    $scope.pageChanged = function($http) {
+        $http({
+                method: 'GET',
+                url: '/posts/user/:username?p=' + $scope.currentPage,
+            }).error(function(error) {
+                console.log(error);
+            });
+    };
+
+    $scope.maxSize = 5;
+    $scope.bigTotalItems = 175;
+    $scope.bigCurrentPage = 1;
+};
+
 PublishController.$inject = ['$scope', '$http'];
+EditController.$inject = ['$scope', '$http'];
+PostController.$inject = ['$scope', '$http'];
 UploadController.$inject = ['$scope', 'Upload'];
 
 posts.controller('PublishController', PublishController);
+posts.controller('EditController', EditController);
+posts.controller('PostController', PostController);
 posts.controller('UploadController', UploadController);

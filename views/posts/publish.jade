@@ -21,6 +21,6 @@ block content
                 div(ng-message="minlength") 正文最短为10位字符
                 div(ng-message="maxlength") 正文最长为5000位字符
                 div(ng-message="confirm") 不能发布完全相同的文章
-            block upload
+            include upload
 
             button#publish.btn.btn-primary.btn-lg.btn-block(type="submit" ng-disabled="publishForm.$invalid") 发布

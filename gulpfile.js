@@ -116,7 +116,7 @@ gulp.task('css-dev', function() {
 
 gulp.task('libs-css-dev', function() {
     return gulp.src([
-            'public/stylesheets/libs/*.css',
+            'public/stylesheets/libs/*.min.css',
         ])
         .pipe(plugins.concat('libs.min.css'))
         .pipe(plugins.minifyCss())
@@ -128,7 +128,9 @@ gulp.task('libs-js-dev', function() {
             'public/javascripts/libs/angular.min.js',
             'public/javascripts/libs/angular-messages.min.js',
             'public/javascripts/libs/ng-file-upload.min.js',
-            'public/javascripts/libs/ng-file-upload-shim.min.js'
+            'public/javascripts/libs/ng-file-upload-shim.min.js',
+            'public/javascripts/libs/ui-bootstrap.min.js',
+            'public/javascripts/libs/ui-bootstrap-tpls.min.js',
         ])
         .pipe(plugins.uglify())
         .pipe(plugins.concat('libs.min.js'))

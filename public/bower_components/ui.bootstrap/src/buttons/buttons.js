@@ -14,6 +14,7 @@ angular.module('ui.bootstrap.buttons', [])
   return {
     require: ['btnRadio', 'ngModel'],
     controller: 'ButtonsController',
+    controllerAs: 'buttons',
     link: function (scope, element, attrs, ctrls) {
       var buttonsCtrl = ctrls[0], ngModelCtrl = ctrls[1];
 
@@ -24,7 +25,7 @@ angular.module('ui.bootstrap.buttons', [])
 
       //ui->model
       element.bind(buttonsCtrl.toggleEvent, function () {
-        if ('disabled' in attrs) {
+        if (attrs.disabled) {
           return;
         }
 
@@ -45,6 +46,7 @@ angular.module('ui.bootstrap.buttons', [])
   return {
     require: ['btnCheckbox', 'ngModel'],
     controller: 'ButtonsController',
+    controllerAs: 'button',
     link: function (scope, element, attrs, ctrls) {
       var buttonsCtrl = ctrls[0], ngModelCtrl = ctrls[1];
 
@@ -68,7 +70,7 @@ angular.module('ui.bootstrap.buttons', [])
 
       //ui->model
       element.bind(buttonsCtrl.toggleEvent, function () {
-        if ('disabled' in attrs) {
+        if (attrs.disabled) {
           return;
         }
 

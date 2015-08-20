@@ -260,7 +260,7 @@ describe('tooltip', function() {
     beforeEach(inject(function ($compile) {
       scope.delay='1000';
       elm = $compile(angular.element(
-        '<span tooltip="tooltip text" tooltip-popup-delay="{{delay}}">Selector Text</span>'
+        '<span tooltip="tooltip text" tooltip-popup-delay="{{delay}}" ng-disabled="disabled">Selector Text</span>'
       ))(scope);
       elmScope = elm.scope();
       tooltipScope = elmScope.$$childTail;
@@ -292,6 +292,19 @@ describe('tooltip', function() {
       elm.trigger('mouseenter');
       expect(tooltipScope.isOpen).toBe(true);
     });
+
+    it('should not open if disabled is present', inject(function($timeout) {
+      elm.trigger('mouseenter');
+      expect(tooltipScope.isOpen).toBe(false);
+
+      $timeout.flush(500);
+      expect(tooltipScope.isOpen).toBe(false);
+      elmScope.disabled = true;
+      elmScope.$digest();
+
+      $timeout.flush();
+      expect(tooltipScope.isOpen).toBe(false);
+    }));
 
   });
 
@@ -363,6 +376,27 @@ describe('tooltip', function() {
       // mouseenter trigger is still set
       elm2.trigger('mouseenter');
       expect( tooltipScope2.isOpen ).toBeTruthy();
+    }));
+
+    it( 'should accept multiple triggers based on the map for mapped triggers', inject( function( $compile ) {
+      elmBody = angular.element(
+        '<div><input tooltip="Hello!" tooltip-trigger="focus fakeTriggerAttr" /></div>'
+      );
+      $compile(elmBody)(scope);
+      scope.$apply();
+      elm = elmBody.find('input');
+      elmScope = elm.scope();
+      tooltipScope = elmScope.$$childTail;
+
+      expect( tooltipScope.isOpen ).toBeFalsy();
+      elm.trigger('focus');
+      expect( tooltipScope.isOpen ).toBeTruthy();
+      elm.trigger('blur');
+      expect( tooltipScope.isOpen ).toBeFalsy();
+      elm.trigger('fakeTriggerAttr');
+      expect( tooltipScope.isOpen ).toBeTruthy();
+      elm.trigger('fakeTriggerAttr');
+      expect( tooltipScope.isOpen ).toBeFalsy();
     }));
   });
 

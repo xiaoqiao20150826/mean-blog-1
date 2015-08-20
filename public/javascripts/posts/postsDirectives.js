@@ -24,4 +24,18 @@ var ngFocus = function() {
     };
 };
 
+var haveValue = function() {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        scope: {
+            ngModel: '='
+        },
+        link: function(scope, ele, attrs, ngModel) {
+            scope.ngModel = attrs.haveValue;
+        }
+    };
+};
+
 posts.directive('ngFocus', ngFocus);
+posts.directive('haveValue', haveValue);

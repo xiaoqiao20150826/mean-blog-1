@@ -9,40 +9,21 @@ var gm = require('gm'),
         imageMagick: true
     });
 var markdown = require('markdown').markdown;
-var amountPerPage = 2;
 //functions
 var newTime = function() {
-    var date = new Date();
-    return {
-        date: date,
-        year: date.getFullYear(),
-        month: date.getFullYear() + "-" + (date.getMonth() + 1),
-        day: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
-        minute: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +
-            date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()),
-        second: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +
-            date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + " " +
-            ":" + (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
-    };
-}
-
-var pageQuery = function(params) {
-    var total = Posts.count({
-        username: params.username,
-        status: params.status
-    });
-
-    var query = Posts.find({
-        username: params.username,
-        status: params.status
-    }).skip((params.page - 1) * amountPerPage).limit(amountPerPage);
-
-    query.sort({
-        'updateTime.date': -1
-    });
-
-    return {total: total, query: query};
-}
+        var date = new Date();
+        return {
+            date: date,
+            year: date.getFullYear(),
+            month: date.getFullYear() + "-" + (date.getMonth() + 1),
+            day: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
+            minute: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +
+                date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()),
+            second: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +
+                date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + " " +
+                ":" + (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
+        };
+    }
     /* GET users listing. */
 router.get('/publish', function(req, res) {
     if (!req.session.users) {
@@ -56,13 +37,10 @@ router.get('/publish', function(req, res) {
 });
 
 router.get('/user/:username', function(req, res) {
-    var page = req.query.p ? parseInt(req.query.p) : 1;
-    var data = pageQuery({
+    Posts.find({
         username: req.params.username,
-        status: 1,
-        page: page
-    });
-    data.query.exec(function(err, posts) {
+        status: 1
+    }, function(err, posts) {
         if (err) {
             posts = [];
         }
@@ -72,7 +50,6 @@ router.get('/user/:username', function(req, res) {
         res.render('posts/posts', {
             title: posts[0].username + "的博文",
             users: req.session.users,
-            page: page,
             posts: posts,
             author: posts[0].username
         });
@@ -237,9 +214,7 @@ router.get('/remove/:username/:day/:title', function(req, res) {
 
             if (docs) {
                 post['status'] = 0;
-                Posts.update({
-                    _id: docs._id
-                }, post, function(err) {
+                Posts.update({_id: docs._id}, post, function(err) {
                     if (err) {
                         console.log(err);
                         return handleError(err);

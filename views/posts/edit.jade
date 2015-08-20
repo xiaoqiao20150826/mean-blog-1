@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+
+    div(ng-app="posts" ng-controller="EditController")
+        form.form-posts(name="editForm" ng-submit="submitForm()")
+            h2.form-posts-heading 发布一篇博客
+            input.form-control(type="text" name="title" ng-model="edit.title" placeholder="请输入标题" \
+                    ng-minlength="3" ng-maxlength="30" required ng-focus disabled="disabled" have-value="#{post.title}")
+            //ng-cloak用于防止出现闪烁的情况
+            div.error.ng-cloak(ng-messages="editForm.title.$error" ng-messages-multiple \
+                    ng-if="editForm.title.$dirty && (!editForm.title.$focused || editForm.submitted)")
+                div(ng-message="required") 标题不能为空
+                div(ng-message="minlength") 标题最短为3位字符
+                div(ng-message="maxlength") 标题最长为30位字符
+            textarea.form-control(name="content" rows="12" ng-model="edit.content" placeholder="请输入正文" \
+                    ng-minlength="10" ng-maxlength="5000" required ng-focus have-value="#{post.content}")
+            div.error.ng-cloak(ng-messages="editForm.content.$error" ng-messages-multiple \
+                    ng-if="editForm.content.$dirty && (!editForm.content.$focused || editForm.submitted)")
+                div(ng-message="required") 正文不能为空
+                div(ng-message="minlength") 正文最短为10位字符
+                div(ng-message="maxlength") 正文最长为5000位字符
+                div(ng-message="confirm") 请编辑后再保存修改
+            include upload
+
+            button#edit.btn.btn-primary.btn-lg.btn-block(type="submit" ng-disabled="editForm.$invalid") 保存修改

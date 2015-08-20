@@ -11,5 +11,16 @@ block content
                 p.info
                     | 作者：
                     a(href="/posts/user/#{post.username}") #{post.username} |
-                    | 日期：#{post.createdTime.minute}
+                    | 日期：#{post.createdTime.second}
+                 -if (users && users.username == post.username)
+                     p
+                        span
+                            a.edit(href="/posts/edit/#{post.username}/#{post.createdTime.day}/#{post.title}") 编辑
+                        span
+                            a.edit(href="/posts/remove/#{post.username}/#{post.createdTime.day}/#{post.title}") 删除
+
                 !{post.content}
+
+                p
+                    h5
+                        a(href="/posts/user/#{post.username}/#{post.createdTime.day}/#{post.title}") 查看全文

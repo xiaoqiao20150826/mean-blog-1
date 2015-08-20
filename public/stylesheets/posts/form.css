@@ -48,6 +48,15 @@
     margin-right: auto;
 }
 
+.post-comment {
+    max-width: 600px;
+    border-radius: 10px;
+    padding:  1px 30px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .drop-box {
     display: block;
     float: left;

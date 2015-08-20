@@ -2,6 +2,8 @@ extends ../layout
 
 block content
     div.ng-cloak(ng-app="posts" ng-controller="PostController")
+        -if (author)
+            h3 #{title}
         -each post in posts
             div.post-div.text-left
                 p
@@ -11,10 +13,34 @@ block content
                     | 作者：
                     a(href="/posts/user/#{post.username}") #{post.username} |
                     | 日期：#{post.createdTime.minute}
-                p
-                    span
-                        a.edit(href="/posts/edit/#{post.username}/#{post.createdTime.day}/#{post.title}") 编辑
-                    span
-                        a.edit(href="/posts/remove/#{post.username}/#{post.createdTime.day}/#{post.title}") 删除
+                -if (users && users.username == post.username)
+                     p
+                        span
+                            a.edit(href="/posts/edit/#{post.username}/#{post.createdTime.day}/#{post.title}") 编辑
+                        span
+                            a.edit(href="/posts/remove/#{post.username}/#{post.createdTime.day}/#{post.title}") 删除
 
                 !{post.content}
+
+                -if (author)
+                    p
+                        h5
+                            a(href="/posts/user/#{post.username}/#{post.createdTime.day}/#{post.title}") 查看全文
+
+        -if( !author)
+            div#disqus_thread.post-comment
+            script(type="text/javascript").
+                /* * * CONFIGURATION VARIABLES * * */
+                var disqus_shortname = 'nodemultiblog';
+
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            noscript Please enable JavaScript to view the
+                a(href="https://disqus.com/?ref_noscript" rel="nofollow") comments powered by Disqus.
+        -else
+            pagination(boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"
+                class="pagination-sm" previous-text="<" next-text=">" first-text="<<" last-text=">>")

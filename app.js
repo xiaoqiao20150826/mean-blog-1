@@ -39,9 +39,9 @@ app.use(session({
   })
 }));
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/posts', posts);
+// app.use('/', routes);
+// app.use('/users', users);
+// app.use('/posts', posts);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -63,6 +63,16 @@ if (app.get('env') === 'development') {
     });
   });
 }
+
+app.use(function (req, res) {
+    console.log(req.path);
+    if(req.path.indexOf('/api')>=0){
+        res.send("server text");
+
+    }else{ //angular启动页
+        res.sendfile('public/index.html');
+    }
+});
 
 // production error handler
 // no stacktraces leaked to user

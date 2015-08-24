@@ -1,4 +1,4 @@
-var posts = angular.module('posts', ['ngMessages', 'ngFileUpload', 'ui.bootstrap']);
+var posts = angular.module('posts', ['ngMessages', 'ngFileUpload', 'ui.bootstrap', 'app']);
 
 var PublishController = function($scope, $http) {
     $scope.submitted = false;
@@ -82,36 +82,73 @@ var UploadController = function($scope, Upload) {
     };
 };
 
+var UserPostController = function($scope, $http, $sce) {
+    $scope.currentPage = 1;
+    $scope.$watch('username', function() {
+        console.log($scope.username);
+    });
+    $http({
+        method: 'POST',
+        url: '/posts/user/',
+        data: {
+            username: $scope.username,
+            page: $scope.currentPage
+        }
+    }).success(function(data) {
+        $scope.posts = angular.forEach(angular.fromJson(data.posts), function(post) {
+            post.content = $sce.trustAsHtml(post.content);
+        });
+        $scope.users = data.users;
+        console.log(data);
+    }).error(function(error) {
+        console.log(error);
+    });
 
-var PostController = function($scope, $http) {
-    $scope.totalItems = 64;
-    $scope.currentPage = 4;
-    console.log($scope.totalItems );
+    // $scope.totalItems = 64;
+    // $scope.currentPage = 4;
+    // console.log($scope.totalItems );
 
-    $scope.setPage = function(pageNo) {
-        $scope.currentPage = pageNo;
-    };
+    // $scope.setPage = function(pageNo) {
+    //     $scope.currentPage = pageNo;
+    // };
 
-    $scope.pageChanged = function($http) {
-        $http({
-                method: 'GET',
-                url: '/posts/user/:username?p=' + $scope.currentPage,
-            }).error(function(error) {
-                console.log(error);
-            });
-    };
+    // $scope.pageChanged = function($http) {
+    //     $http({
+    //             method: 'GET',
+    //             url: '/posts/user/:username?p=' + $scope.currentPage,
+    //         }).error(function(error) {
+    //             console.log(error);
+    //         });
+    // };
 
-    $scope.maxSize = 5;
-    $scope.bigTotalItems = 175;
-    $scope.bigCurrentPage = 1;
+    // $scope.maxSize = 5;
+    // $scope.bigTotalItems = 175;
+    // $scope.bigCurrentPage = 1;
+};
+
+
+var PostController = function($scope, $http, $sce) {
+    $http({
+        method: 'GET',
+        url: '/posts/user/:username',
+    }).success(function(data) {
+        $scope.posts = angular.forEach(angular.fromJson(data.posts), function(post) {
+            post.content = $sce.trustAsHtml(post.content);
+        });
+        $scope.users = data.users;
+    }).error(function(error) {
+        console.log(error);
+    });
 };
 
 PublishController.$inject = ['$scope', '$http'];
 EditController.$inject = ['$scope', '$http'];
-PostController.$inject = ['$scope', '$http'];
+PostController.$inject = ['$scope', '$http', '$sce'];
+UserPostController.$inject = ['$scope', '$http', '$sce'];
 UploadController.$inject = ['$scope', 'Upload'];
 
 posts.controller('PublishController', PublishController);
 posts.controller('EditController', EditController);
 posts.controller('PostController', PostController);
 posts.controller('UploadController', UploadController);
+posts.controller('UserPostController', UserPostController);

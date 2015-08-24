@@ -127,10 +127,12 @@ gulp.task('libs-js-dev', function() {
     return gulp.src([
             'public/javascripts/libs/angular.min.js',
             'public/javascripts/libs/angular-messages.min.js',
+            'public/javascripts/libs/angular-route.min.js',
             'public/javascripts/libs/ng-file-upload.min.js',
             'public/javascripts/libs/ng-file-upload-shim.min.js',
             'public/javascripts/libs/ui-bootstrap.min.js',
             'public/javascripts/libs/ui-bootstrap-tpls.min.js',
+            // 'public/javascripts/libs/angular-sanitize.min.js',
         ])
         .pipe(plugins.uglify())
         .pipe(plugins.concat('libs.min.js'))

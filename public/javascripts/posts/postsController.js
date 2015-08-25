@@ -1,4 +1,4 @@
-var posts = angular.module('posts', ['ngMessages', 'ngFileUpload', 'ui.bootstrap', 'app']);
+var posts = angular.module('multiBlog');
 
 var PublishController = function($scope, $http) {
     $scope.submitted = false;

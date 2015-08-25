@@ -1,4 +1,4 @@
-var posts = angular.module('posts');
+var posts = angular.module('multiBlog');
 
 var ngFocus = function() {
     var FOCUS_CLASS = "ng-focused";

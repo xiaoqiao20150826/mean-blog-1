@@ -1,4 +1,4 @@
-var app = angular.module('index');
+var app = angular.module('multiBlog');
 
 var compile = function($compile) {
   // directive factory creates a link function

@@ -9,10 +9,10 @@ var session = require('express-session');
 var mongoose = require('./models/db');
 var MongooseStore = require('express-mongoose-store')(session, mongoose);
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var posts = require('./routes/posts');
-
+// var routes = require('./routes/index');
+// var users = require('./routes/users');
+// var posts = require('./routes/posts');
+var api = require('./routes/api');
 var app = express();
 
 // view engine setup
@@ -42,6 +42,11 @@ app.use(session({
 // app.use('/', routes);
 // app.use('/users', users);
 // app.use('/posts', posts);
+app.use('/api', api);
+
+app.use(function (req, res) {
+    res.sendfile('public/index.html');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -63,16 +68,6 @@ if (app.get('env') === 'development') {
     });
   });
 }
-
-app.use(function (req, res) {
-    console.log(req.path);
-    if(req.path.indexOf('/api')>=0){
-        res.send("server text");
-
-    }else{ //angular启动页
-        res.sendfile('public/index.html');
-    }
-});
 
 // production error handler
 // no stacktraces leaked to user

@@ -1,4 +1,4 @@
-var users = angular.module('users');
+var users = angular.module('multiBlog');
 
 var ensureUnique = function($http) {
     return {

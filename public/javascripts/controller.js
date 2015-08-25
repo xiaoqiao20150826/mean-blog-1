@@ -1,6 +1,7 @@
-var app = angular.module('app');
+var app = angular.module('multiBlog');
 
 function WelcomeController($scope){
+    console.log(111);
     $scope.username = 'Conan_Z';
 }
 

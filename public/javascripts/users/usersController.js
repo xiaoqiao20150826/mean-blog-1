@@ -1,4 +1,4 @@
-var users = angular.module('users', ['ngMessages']);
+var users = angular.module('multiBlog');
 
 var LoginController = function($scope, $http) {
     $scope.submitted = false;

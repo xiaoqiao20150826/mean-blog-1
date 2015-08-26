@@ -8,9 +8,8 @@ var IndexController = function($scope, $http, $sce) {
         $scope.posts = angular.forEach(angular.fromJson(data.posts), function(post) {
             post.content = $sce.trustAsHtml(post.content);
         });
-        console.log($scope.posts);
-        $scope.title = data.title;
-        $scope.users = data.users;
+        $scope.$parent.title = data.title;
+        $scope.$parent.users = data.users;
     }).error(function(error) {
         console.log(error);
     });

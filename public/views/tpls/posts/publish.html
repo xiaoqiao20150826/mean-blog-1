@@ -1,0 +1,20 @@
+<div class="ng-cloak">
+  <form name="publishForm" ng-submit="submitForm()" class="form-posts">
+    <h2 class="form-posts-heading">发布一篇博客</h2>
+    <input type="text" name="title" ng-model="publish.title" placeholder="请输入标题"  ng-minlength="3" ng-maxlength="30" required="required" ng-focus="ng-focus" class="form-control"/>
+    <div ng-messages="publishForm.title.$error" ng-messages-multiple="ng-messages-multiple"  ng-if="publishForm.title.$dirty &amp;&amp; (!publishForm.title.$focused || publishForm.submitted)" class="error">
+      <div ng-message="required">标题不能为空</div>
+      <div ng-message="minlength">标题最短为3位字符</div>
+      <div ng-message="maxlength">标题最长为30位字符</div>
+    </div>
+    <textarea name="content" rows="12" ng-model="publish.content" placeholder="请输入正文"  ng-minlength="10" ng-maxlength="5000" required="required" ng-focus="ng-focus" class="form-control"></textarea>
+    <div ng-messages="publishForm.content.$error" ng-messages-multiple="ng-messages-multiple"  ng-if="publishForm.content.$dirty &amp;&amp; (!publishForm.content.$focused || publishForm.submitted)" class="error">
+      <div ng-message="required">正文不能为空</div>
+      <div ng-message="minlength">正文最短为10位字符</div>
+      <div ng-message="maxlength">正文最长为5000位字符</div>
+      <div ng-message="confirm">不能发布完全相同的文章</div>
+    </div>
+    <div ng-include="'views/tpls/posts/upload.html'"></div>
+    <button id="publish" type="submit" ng-disabled="publishForm.$invalid" class="btn btn-primary btn-lg btn-block">发布</button>
+  </form>
+</div>

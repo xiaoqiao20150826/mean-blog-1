@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="multiBlog">
+<html ng-app="multiBlog" ng-controller="CommonController">
     <head>
         <base href="/">
         <meta charset='UTF-8'>
@@ -8,7 +8,7 @@
         <script src='/assets/libs.min.js'></script>
         <link rel='stylesheet' href='/assets/build.min.css'>
         <link rel='stylesheet' href='/assets/libs.min.css'>
-        <title>{{title}}</title>
+        <title class="ng-cloak">{{title}}</title>
     </head>
     <body>
         <div ng-include="'views/common/nav.html'"></div>

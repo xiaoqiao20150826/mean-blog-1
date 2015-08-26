@@ -1,0 +1,7 @@
+<div ng-controller="UploadController" class="ng-cloak">
+    <div ng-repeat="uploaded in uploadeds" class="uploaded">
+        <img ngf-src="uploaded.path" ngf-accept="'image/*'" alt="{{ uploaded.name }}" class="images"/>
+        <span>{{ uploaded.name }}</span>
+    </div>
+    <div ngf-drop="ngf-drop" ngf-select="ngf-select" ng-model="files" ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true" ngf-accept="'image/*,application/pdf'" class="drop-box">点击或将图片拖到此处进行上传</div>
+</div>

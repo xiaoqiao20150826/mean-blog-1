@@ -1,4 +1,4 @@
-var users = angular.module('multiBlog');
+var common = angular.module('multiBlog');
 
 var ensureUnique = function($http) {
     return {
@@ -8,7 +8,7 @@ var ensureUnique = function($http) {
                 if (!val) return;
                 $http({
                     method: 'POST',
-                    url: '/users/check',
+                    url: '/api/users/check',
                     data: {
                         field: attrs.ensureUnique,
                         value: val
@@ -66,6 +66,6 @@ var confirmed = function() {
 
 ensureUnique.$inject = ['$http'];
 
-users.directive('ensureUnique', ensureUnique);
-users.directive('ngFocus', ngFocus);
-users.directive('confirmed', confirmed);
+common.directive('ensureUnique', ensureUnique);
+common.directive('ngFocus', ngFocus);
+common.directive('confirmed', confirmed);

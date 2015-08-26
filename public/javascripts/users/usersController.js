@@ -1,19 +1,20 @@
 var users = angular.module('multiBlog');
 
-var LoginController = function($scope, $http) {
+var LoginController = function($scope, $http, $location) {
+    $scope.$parent.title = "登陆";
     $scope.submitted = false;
     $scope.submitForm = function() {
         if ($scope.loginForm.$valid) { // 正常提交
             $http({
                 method: 'POST',
-                url: '/users/login',
+                url: '/api/users/login',
                 data: {
                     username: $scope.login.username,
                     password: $scope.login.password,
                 }
             }).success(function(data) {
                 if (data.result === true) {
-                    window.location = "/";
+                    $location.path('/');
                 } else {
                     $scope.loginForm.password.$setValidity('wrong', false);
                 }
@@ -26,13 +27,27 @@ var LoginController = function($scope, $http) {
     };
 };
 
-var RegController = function($scope, $http) {
+var LogoutController = function($scope, $http, $location) {
+    $http({
+        method: 'GET',
+        url: '/api/users/logout',
+    }).success(function(data) {
+        $scope.$parent.title = data.title;
+        $scope.$parent.users = data.users;
+        $location.path('/');
+    }).error(function(error) {
+        console.log(error);
+    });
+};
+
+var RegController = function($scope, $http, $location) {
+    $scope.$parent.title = "注册";
     $scope.submitted = false;
     $scope.submitForm = function() {
         if ($scope.regForm.$valid) { // 正常提交
             $http({
                 method: 'POST',
-                url: '/users/reg',
+                url: '/api/users/reg',
                 data: {
                     username: $scope.reg.username,
                     password: $scope.reg.password,
@@ -40,7 +55,7 @@ var RegController = function($scope, $http) {
                 }
             }).success(function(data) {
                 if (data.result === true) {
-                    window.location = "/";
+                    $location.path('/');
                 } else {
                     if (data.reason == 'username') {
                         $scope.regForm.username.$setValidity('unique', false);
@@ -57,8 +72,10 @@ var RegController = function($scope, $http) {
     };
 };
 
-RegController.$inject = ['$scope', '$http'];
-LoginController.$inject = ['$scope', '$http'];
+RegController.$inject = ['$scope', '$http', '$location'];
+LoginController.$inject = ['$scope', '$http', '$location'];
+LogoutController.$inject = ['$scope', '$http', '$location'];
 
 users.controller('RegController', RegController);
 users.controller('LoginController', LoginController);
+users.controller('LogoutController', LogoutController);

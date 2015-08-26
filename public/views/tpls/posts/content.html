@@ -1,0 +1,25 @@
+<div class="post-div text-left ng-cloak" ng-repeat="post in posts">
+  <p>
+    <h2>
+    <a href="/posts/user/{{post.username}}/{{post.createdTime.day}}/{{post.title}}">{{post.title}}</a>
+    </h2>
+  </p>
+  <p class="info">
+    作者：<a href="/posts/user/{{post.username}}">{{post.username}} |</a>
+    日期：{{post.createdTime.minute}}
+  </p>
+  <p ng-if="users && users.username == post.username">
+    <span>
+      <a href="/posts/edit/{{post.username}}/{{post.createdTime.day}}/{{post.title}}" class="edit">编辑</a>
+    </span>
+    <span>
+      <a href="/posts/remove/{{post.username}}/{{post.createdTime.day}}/{{post.title}}" class="edit">删除</a>
+    </span>
+  </p>
+  <div ng-bind-html="post.content"></div>
+  <p ng-if="author">
+    <h5>
+    <a href="/posts/user/{{post.username}}/{{post.createdTime.day}}/{{post.title}}">查看全文</a>
+    </h5>
+  </p>
+</div>

@@ -1,12 +1,13 @@
 var posts = angular.module('multiBlog');
 
 var PublishController = function($scope, $http) {
+    $scope.$parent.title = "发布";
     $scope.submitted = false;
     $scope.submitForm = function() {
         if ($scope.publishForm.$valid) { // 正常提交
             $http({
                 method: 'POST',
-                url: '/posts/publish',
+                url: '/api/posts/publish',
                 data: {
                     title: $scope.publish.title,
                     content: $scope.publish.content
@@ -26,13 +27,29 @@ var PublishController = function($scope, $http) {
     };
 };
 
-var EditController = function($scope, $http) {
+var EditController = function($scope, $http, $routeParams) {
+    $scope.$parent.title = "编辑";
+    $scope.edit  = {
+        title: null,
+        content: null
+    }
+
+    $http({
+        method: 'GET',
+        url: '/api/posts/edit/' + $routeParams.username + '/' + $routeParams.day + '/' + $routeParams.title,
+    }).success(function(data) {
+        $scope.edit.title = data.post.title;
+        $scope.edit.content = data.post.content;
+    }).error(function(error) {
+        console.log(error);
+    });
+
     $scope.submitted = false;
     $scope.submitForm = function() {
         if ($scope.editForm.$valid) { // 正常提交
             $http({
                 method: 'POST',
-                url: '/posts/edit',
+                url: '/api/posts/edit',
                 data: {
                     title: $scope.edit.title,
                     content: $scope.edit.content
@@ -68,7 +85,7 @@ var UploadController = function($scope, Upload) {
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
                 Upload.upload({
-                    url: '/posts/upload',
+                    url: '/api/posts/upload',
                     file: file
                 }).progress(function(evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
@@ -89,7 +106,7 @@ var UserPostController = function($scope, $http, $sce) {
     });
     $http({
         method: 'POST',
-        url: '/posts/user/',
+        url: '/api/posts/user/',
         data: {
             username: $scope.username,
             page: $scope.currentPage
@@ -130,7 +147,7 @@ var UserPostController = function($scope, $http, $sce) {
 var PostController = function($scope, $http, $sce) {
     $http({
         method: 'GET',
-        url: '/posts/user/:username',
+        url: '/api/posts/user/:username',
     }).success(function(data) {
         $scope.posts = angular.forEach(angular.fromJson(data.posts), function(post) {
             post.content = $sce.trustAsHtml(post.content);
@@ -142,7 +159,7 @@ var PostController = function($scope, $http, $sce) {
 };
 
 PublishController.$inject = ['$scope', '$http'];
-EditController.$inject = ['$scope', '$http'];
+EditController.$inject = ['$scope', '$http', '$routeParams'];
 PostController.$inject = ['$scope', '$http', '$sce'];
 UserPostController.$inject = ['$scope', '$http', '$sce'];
 UploadController.$inject = ['$scope', 'Upload'];

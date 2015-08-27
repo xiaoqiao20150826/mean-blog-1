@@ -67,7 +67,7 @@ router.get('/user/:username', function(req, res) {
             posts = [];
         }
         posts.forEach(function(post) {
-            post.content = markdown.toHTML(post.content).slice(0, 200);
+            post.content = markdown.toHTML(post.content).slice(0, 20);
         });
         res.render('posts/posts', {
             title: posts[0].username + "的博文",

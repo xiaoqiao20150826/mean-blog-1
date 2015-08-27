@@ -17,9 +17,9 @@
     </span>
   </p>
   <div ng-bind-html="post.content"></div>
-  <p ng-if="author">
+  <p>
     <h5>
-    <a href="/posts/post/{{post.username}}/{{post.createdTime.day}}/{{post.title}}">查看全文</a>
+    <a href="/posts/post/{{post.username}}/{{post.createdTime.day}}/{{post.title}}" ng-if="!detail">查看全文</a>
     </h5>
   </p>
 </div>

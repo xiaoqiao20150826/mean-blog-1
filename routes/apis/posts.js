@@ -63,6 +63,9 @@ var postsRoute = function(router) {
                 }
                 posts.forEach(function(post) {
                     post.content = markdown.toHTML(post.content).slice(0, 200);
+                    if(post.content.length >= 200){
+                        post.content += '...';
+                    }
                 });
                 data.posts = posts;
                 res.status(200).json(data);

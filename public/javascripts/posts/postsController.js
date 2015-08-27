@@ -29,7 +29,7 @@ var PublishController = function($scope, $http, $location) {
 
 var EditController = function($scope, $http, $routeParams, $location) {
     $scope.$parent.title = "编辑";
-    $scope.edit  = {
+    $scope.edit = {
         title: null,
         content: null
     };
@@ -73,14 +73,14 @@ var RemoveController = function($scope, $http, $routeParams, $location) {
     $http({
         method: 'POST',
         url: '/api/posts/remove/',
-        data:{
+        data: {
             username: $routeParams.username,
             day: $routeParams.day,
             title: $routeParams.title,
         }
     }).success(function(data) {
         console.log(data);
-        if(data.result === true) {
+        if (data.result === true) {
             $location.path('/');
         }
     }).error(function(error) {
@@ -155,6 +155,7 @@ var UserPostsController = function($scope, $http, $sce, $routeParams) {
 
 
 var PostController = function($scope, $http, $sce, $routeParams) {
+    $scope.detail = true;
     $http({
         method: 'GET',
         url: '/api/posts/post/' + $routeParams.username + '/' + $routeParams.day + '/' + $routeParams.title,
@@ -166,6 +167,20 @@ var PostController = function($scope, $http, $sce, $routeParams) {
     }).error(function(error) {
         console.log(error);
     });
+
+    var disqus_shortname = 'nodemultiblog';
+    if (window.DISQUS) {
+        DISQUS.reset({
+            reload: true,
+        });
+    }else{/* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();}
 };
 
 PublishController.$inject = ['$scope', '$http', '$location'];

@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+    div.ng-cloak(ng-app="posts" ng-controller="UserPostController")
+        input(type="text" ng-model="username" have-value="#{users.username}")
+
+        include content
+
+        p
+            h5
+                a(href="/posts/user/{{post.username}}/{{post.createdTime.day}}/{{post.title}}") 查看全文
+
+        pagination(boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"
+            class="pagination-sm" previous-text="<" next-text=">" first-text="<<" last-text=">>")

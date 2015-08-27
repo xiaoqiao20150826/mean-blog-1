@@ -1,0 +1,15 @@
+div.post-div.text-left(ng-repeat="post in posts")
+    p
+        h2
+            a(href="/posts/user/{{post.username}}/{{post.createdTime.day}}/{{post.title}}") {{post.title}}
+    p.info
+        | 作者：
+        a(href="/posts/user/{{post.username}}") {{post.username}} |
+        | 日期：{{post.createdTime.minute}}
+    p(ng-if="users && users.username == post.username")
+        span
+            a.edit(href="/posts/edit/{{post.username}}/{{post.createdTime.day}}/{{post.title}}") 编辑
+        span
+            a.edit(href="/posts/remove/{{post.username}}/{{post.createdTime.day}}/{{post.title}}") 删除
+
+    div(ng-bind-html="post.content")

@@ -10,7 +10,7 @@ var CommonController = function($scope, $http){
     }).error(function(error) {
         console.log(error);
     });
-}
+};
 
 CommonController.$inject = ['$scope', '$http'];
 

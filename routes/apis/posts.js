@@ -7,7 +7,7 @@ var gm = require('gm'),
         imageMagick: true
     });
 var markdown = require('markdown').markdown;
-var amountPerPage = 2;
+var pageQuery = require('../common/pagination');
 //functions
 var newTime = function() {
     var date = new Date();
@@ -24,27 +24,7 @@ var newTime = function() {
     };
 }
 
-var pageQuery = function(params) {
-        var total = Posts.count({
-            username: params.username,
-            status: params.status
-        });
-
-        var query = Posts.find({
-            username: params.username,
-            status: params.status
-        }).skip((params.page - 1) * amountPerPage).limit(amountPerPage);
-
-        query.sort({
-            'updateTime.date': -1
-        });
-
-        return {
-            total: total,
-            query: query
-        };
-    }
-    /* GET users listing. */
+/* GET users listing. */
 var postsRoute = function(router) {
     router.get('/publish', function(req, res) {
         if (!req.session.users) {
@@ -59,29 +39,43 @@ var postsRoute = function(router) {
 
     router.get('/posts/user/:username', function(req, res) {
         var page = req.query.p ? parseInt(req.query.p) : 1;
-        var data = pageQuery({
+        var statement = pageQuery({
             username: req.params.username,
             status: 1,
             page: page
         });
-        data.query.exec(function(err, posts) {
+        var data = {
+            title: req.params.username + '的博文',
+            users: req.session.users,
+            page: page,
+            total: 0,
+            posts: []
+        };
+        console.log(data);
+        statement.total.exec(function(err, total) {
             if (err) {
-                posts = [];
+                total = 0;
             }
-            posts.forEach(function(post) {
-                post.content = markdown.toHTML(post.content).slice(0, 200);
-            });
-            res.render('posts/posts', {
-                title: posts[0].username + "的博文",
-                users: req.session.users,
-                page: page,
-                posts: posts,
-                author: posts[0].username
+            data.total = total;
+            statement.query.exec(function(err, posts) {
+                if (err) {
+                    posts = [];
+                }
+                posts.forEach(function(post) {
+                    post.content = markdown.toHTML(post.content).slice(0, 200);
+                });
+                data.posts = posts;
+                res.status(200).json(data);
             });
         });
     });
 
-    router.get('/posts/user/:username/:day/:title', function(req, res) {
+    router.get('/posts/post/:username/:day/:title', function(req, res) {
+        var data = {
+            title: null,
+            users: req.session.users,
+            posts: []
+        };
         Posts.find({
             username: req.params.username,
             'createdTime.day': req.params.day,
@@ -94,11 +88,9 @@ var postsRoute = function(router) {
             posts.forEach(function(post) {
                 post.content = markdown.toHTML(post.content);
             });
-            res.render('posts/posts', {
-                title: '主页',
-                users: req.session.users,
-                posts: posts
-            });
+            data.posts = posts;
+            data.title = posts[0].title;
+            res.status(200).json(data);
         });
     });
 
@@ -211,14 +203,14 @@ var postsRoute = function(router) {
         });
     });
 
-    router.get('/posts/remove/:username/:day/:title', function(req, res) {
+    router.post('/posts/remove/', function(req, res) {
         if (!req.session.users) {
             res.redirect('/users/login');
         } else {
             var post = {
-                username: req.params.username,
-                'createdTime.day': req.params.day,
-                title: req.params.title,
+                username: req.body.username,
+                'createdTime.day': req.body.day,
+                title: req.body.title,
                 status: 1
             };
 
@@ -242,7 +234,7 @@ var postsRoute = function(router) {
                             return handleError(err);
                         } else {
                             data.result = true;
-                            res.redirect('/');
+                            res.status(200).json(data);
                             return;
                         }
                     })

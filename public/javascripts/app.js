@@ -22,15 +22,27 @@ var config = function($routeProvider, $locationProvider){
             templateUrl: 'views/tpls/posts/publish.html',
             controller: 'PublishController'
         })
+        .when('/posts/user/:username', {
+            templateUrl: 'views/tpls/posts/userPosts.html',
+            controller: 'UserPostsController'
+        })
+        .when('/posts/post/:username/:day/:title', {
+            templateUrl: 'views/tpls/posts/post.html',
+            controller: 'PostController'
+        })
         .when('/posts/edit/:username/:day/:title', {
             templateUrl: 'views/tpls/posts/edit.html',
             controller: 'EditController'
+        })
+        .when('/posts/remove/:username/:day/:title', {
+             template: '<div></div>',
+            controller: 'RemoveController'
         })
         .otherwise({
             redirectTo: '/'
         });
     $locationProvider.html5Mode(true);
-}
+};
 
 config.$inject = ['$routeProvider', '$locationProvider'];
 

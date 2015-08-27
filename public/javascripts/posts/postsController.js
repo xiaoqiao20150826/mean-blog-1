@@ -1,6 +1,6 @@
 var posts = angular.module('multiBlog');
 
-var PublishController = function($scope, $http) {
+var PublishController = function($scope, $http, $location) {
     $scope.$parent.title = "发布";
     $scope.submitted = false;
     $scope.submitForm = function() {
@@ -14,7 +14,7 @@ var PublishController = function($scope, $http) {
                 }
             }).success(function(data) {
                 if (data.result === true) {
-                    window.location = '/';
+                    $location.path('/');
                 } else {
                     $scope.publishForm.content.$setValidity('confirm', false);
                 }
@@ -27,12 +27,12 @@ var PublishController = function($scope, $http) {
     };
 };
 
-var EditController = function($scope, $http, $routeParams) {
+var EditController = function($scope, $http, $routeParams, $location) {
     $scope.$parent.title = "编辑";
     $scope.edit  = {
         title: null,
         content: null
-    }
+    };
 
     $http({
         method: 'GET',
@@ -56,7 +56,7 @@ var EditController = function($scope, $http, $routeParams) {
                 }
             }).success(function(data) {
                 if (data.result === true) {
-                    window.location = '/';
+                    $location.path('/');
                 } else {
                     $scope.editForm.content.$setValidity('confirm', false);
                 }
@@ -67,6 +67,25 @@ var EditController = function($scope, $http, $routeParams) {
             $scope.submitted = true;
         }
     };
+};
+
+var RemoveController = function($scope, $http, $routeParams, $location) {
+    $http({
+        method: 'POST',
+        url: '/api/posts/remove/',
+        data:{
+            username: $routeParams.username,
+            day: $routeParams.day,
+            title: $routeParams.title,
+        }
+    }).success(function(data) {
+        console.log(data);
+        if(data.result === true) {
+            $location.path('/');
+        }
+    }).error(function(error) {
+        console.log(error);
+    });
 };
 
 var UploadController = function($scope, Upload) {
@@ -99,73 +118,66 @@ var UploadController = function($scope, Upload) {
     };
 };
 
-var UserPostController = function($scope, $http, $sce) {
-    $scope.currentPage = 1;
-    $scope.$watch('username', function() {
-        console.log($scope.username);
-    });
-    $http({
-        method: 'POST',
-        url: '/api/posts/user/',
-        data: {
-            username: $scope.username,
-            page: $scope.currentPage
+var UserPostsController = function($scope, $http, $sce, $routeParams) {
+    $scope.data = {
+        totalItems: 0,
+        itemsPerPage: 2,
+        currentPage: 1,
+        maxSize: 5,
+        pageChanged: function() {
+            $http({
+                method: 'GET',
+                url: '/api/posts/user/' + $routeParams.username + '?p=' + $scope.data.currentPage,
+            }).success(function(data) {
+                $scope.posts = angular.forEach(angular.fromJson(data.posts), function(post) {
+                    post.content = $sce.trustAsHtml(post.content);
+                });
+            }).error(function(error) {
+                console.log(error);
+            });
         }
-    }).success(function(data) {
-        $scope.posts = angular.forEach(angular.fromJson(data.posts), function(post) {
-            post.content = $sce.trustAsHtml(post.content);
-        });
-        $scope.users = data.users;
-        console.log(data);
-    }).error(function(error) {
-        console.log(error);
-    });
+    };
 
-    // $scope.totalItems = 64;
-    // $scope.currentPage = 4;
-    // console.log($scope.totalItems );
-
-    // $scope.setPage = function(pageNo) {
-    //     $scope.currentPage = pageNo;
-    // };
-
-    // $scope.pageChanged = function($http) {
-    //     $http({
-    //             method: 'GET',
-    //             url: '/posts/user/:username?p=' + $scope.currentPage,
-    //         }).error(function(error) {
-    //             console.log(error);
-    //         });
-    // };
-
-    // $scope.maxSize = 5;
-    // $scope.bigTotalItems = 175;
-    // $scope.bigCurrentPage = 1;
-};
-
-
-var PostController = function($scope, $http, $sce) {
     $http({
         method: 'GET',
-        url: '/api/posts/user/:username',
+        url: '/api/posts/user/' + $routeParams.username + '?p=' + $scope.data.currentPage,
     }).success(function(data) {
         $scope.posts = angular.forEach(angular.fromJson(data.posts), function(post) {
             post.content = $sce.trustAsHtml(post.content);
         });
-        $scope.users = data.users;
+        $scope.data.totalItems = data.total;
+        $scope.$parent.title = data.title;
+        $scope.$parent.users = data.users;
     }).error(function(error) {
         console.log(error);
     });
 };
 
-PublishController.$inject = ['$scope', '$http'];
-EditController.$inject = ['$scope', '$http', '$routeParams'];
-PostController.$inject = ['$scope', '$http', '$sce'];
-UserPostController.$inject = ['$scope', '$http', '$sce'];
+
+var PostController = function($scope, $http, $sce, $routeParams) {
+    $http({
+        method: 'GET',
+        url: '/api/posts/post/' + $routeParams.username + '/' + $routeParams.day + '/' + $routeParams.title,
+    }).success(function(data) {
+        $scope.posts = angular.forEach(angular.fromJson(data.posts), function(post) {
+            post.content = $sce.trustAsHtml(post.content);
+        });
+        $scope.$parent.title = data.title;
+    }).error(function(error) {
+        console.log(error);
+    });
+};
+
+PublishController.$inject = ['$scope', '$http', '$location'];
+EditController.$inject = ['$scope', '$http', '$routeParams', '$location'];
+RemoveController.$inject = ['$scope', '$http', '$routeParams', '$location'];
+PostController.$inject = ['$scope', '$http', '$sce', '$routeParams'];
+UserPostsController.$inject = ['$scope', '$http', '$sce', '$routeParams'];
 UploadController.$inject = ['$scope', 'Upload'];
 
 posts.controller('PublishController', PublishController);
 posts.controller('EditController', EditController);
+posts.controller('RemoveController', RemoveController);
 posts.controller('PostController', PostController);
 posts.controller('UploadController', UploadController);
-posts.controller('UserPostController', UserPostController);
+posts.controller('UserPostsController', UserPostsController);

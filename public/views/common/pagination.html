@@ -1,3 +1,3 @@
-<pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"
-    previous-text="&lt;" next-text="&gt;" first-text="&lt;&lt;" last-text="&gt;&gt;" class="pagination-sm" ng-if="!author">
+<pagination boundary-links="true" total-items="data.totalItems" ng-model="data.currentPage" ng-change="data.pageChanged()" items-per-page="data.itemsPerPage"
+    previous-text="上一页" next-text="下一页" first-text="首页" last-text="尾页" class="pagination-sm" max-size="data.maxSize">
 </pagination>
